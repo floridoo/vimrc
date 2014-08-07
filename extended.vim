@@ -1,12 +1,15 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colorscheme
-" colorscheme molokai
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark
-" colorscheme base16-monokai
 colorscheme busybee
-highlight clear SignColumn
-" colorscheme jellybeans
-" colorscheme rdark
-" let g:colors_name="molokai"
+
+hi clear SignColumn
+hi Visual ctermfg=None ctermbg=238
+hi SpellCap ctermbg=23
+hi Todo ctermbg=214 ctermfg=16
+hi Error ctermbg=124
+hi Folded ctermbg=23
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -37,6 +40,18 @@ cnoremap <C-K>		<C-U>
 
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Indent highlighting
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType * syn match IndentSpace " " contained conceal cchar=·
+autocmd FileType * syn match Indenting /^[ \t]*/ contains=IndentSpace
+autocmd FileType * if index(['nerdtree', 'unite'], &filetype) < 0 | setlocal conceallevel=1 concealcursor=nvic | endif
+highlight Conceal ctermbg=None ctermfg=235
+
+set listchars=tab:▸\ ,trail:·
+set list
+highlight SpecialKey ctermbg=None ctermfg=235
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

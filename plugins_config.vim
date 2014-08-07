@@ -27,12 +27,12 @@ NeoBundle 'Shougo/vimproc.vim', {
       \    },
       \ }
 
-NeoBundle 'godlygeek/csapprox'
+" NeoBundle 'godlygeek/csapprox'
 
 NeoBundle 'bling/vim-airline' "{{{
   let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#left_sep=' '
-  let g:airline#extensions#tabline#left_alt_sep='¦'
+  " let g:airline#extensions#tabline#left_sep=' '
+  " let g:airline#extensions#tabline#left_alt_sep='¦'
   let g:airline_theme='serene'
 
 "}}}
@@ -97,7 +97,7 @@ NeoBundleLazy 'scrooloose/nerdtree', {'autoload':{'commands':['NERDTreeToggle','
   let NERDTreeShowLineNumbers=0
   let NERDTreeChDirMode=0
   let NERDTreeShowBookmarks=1
-  let NERDTreeIgnore=['\.git','\.hg']
+  let NERDTreeIgnore=['\.git','\.hg','\.meta']
   let NERDTreeBookmarksFile='~/.vim/temp_dirs/NerdTreeBookmarks'
   nnoremap <F2> :NERDTreeToggle<CR>
   nnoremap <F3> :NERDTreeFind<CR>
@@ -151,6 +151,8 @@ NeoBundle 'Shougo/unite.vim' "{{{
 
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Lokaltog/vim-easymotion'
+
+" Automatic indenting style
 NeoBundle 'tpope/vim-sleuth'
 
 NeoBundle 'flazz/vim-colorschemes'
