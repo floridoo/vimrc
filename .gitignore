@@ -1,4 +1,6 @@
-temp_dirs/
+autoload/
+plugged/
 snippets/
-bundle/
+temp_dirs/
+vim-go/
 .netrwhist

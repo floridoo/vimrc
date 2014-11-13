@@ -1,44 +1,21 @@
-" vim: ts=2 sts=2 sw=2 fdm=marker
-" fdl=0
-
-""""""""""""""""""""""""""""""
-" => NeoBundle
-""""""""""""""""""""""""""""""
-if has('vim_starting')
-  set nocompatible               " Be iMproved
-
-  " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+" Set up vim-plug
+if !filereadable(expand('~/.vim/autoload/plug.vim'))
+    echo "Installing vim-plug..."
+    silent !mkdir -p ~/.vim/autoload
+    silent !curl -fLo ~/.vim/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
-" Required:
-call neobundle#begin(expand('~/.vim/bundle'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'Shougo/vimproc.vim', {
-      \ 'build' : {
-      \     'windows' : 'tools\\update-dll-mingw',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
-
-" NeoBundle 'godlygeek/csapprox'
-
-NeoBundle 'bling/vim-airline' "{{{
+call plug#begin()
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-dispatch'
+Plug 'bling/vim-airline' "{{{
   let g:airline#extensions#tabline#enabled = 1
   " let g:airline#extensions#tabline#left_sep=' '
   " let g:airline#extensions#tabline#left_alt_sep='¦'
   let g:airline_theme='serene'
-
 "}}}
-
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'tpope/vim-fugitive' "{{{
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive' "{{{
   nnoremap <silent> <leader>gs :Gstatus<CR>
   nnoremap <silent> <leader>gd :Gdiff<CR>
   nnoremap <silent> <leader>gc :Gcommit<CR>
@@ -49,8 +26,7 @@ NeoBundle 'tpope/vim-fugitive' "{{{
   nnoremap <silent> <leader>gr :Gremove<CR>
   autocmd BufReadPost fugitive://* set bufhidden=delete
 "}}}
-
-NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}, 'vim_version':'7.3.885'} "{{{
+Plug 'Shougo/neocomplete.vim' "{{{
   let g:neocomplete#data_directory='~/.vim/temp_dirs/neocomplete'
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#enable_smart_case = 1
@@ -76,8 +52,7 @@ NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}, 'vim_version':
   endif
 "}}}
 
-NeoBundle 'Shougo/neosnippet.vim' "{{{
-  let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
+Plug 'Shougo/neosnippet.vim' "{{{
   let g:neosnippet#enable_snipmate_compatibility=1
 
   imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ? "\<C-n>" : "\<TAB>")
@@ -86,29 +61,29 @@ NeoBundle 'Shougo/neosnippet.vim' "{{{
   smap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
 "}}}
 
-NeoBundle 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet-snippets'
 
-NeoBundleLazy 'editorconfig/editorconfig-vim', {'autoload':{'insert':1}}
-NeoBundle 'jiangmiao/auto-pairs'
-NeoBundle 'tomtom/tcomment_vim'
-NeoBundleLazy 'scrooloose/nerdtree', {'autoload':{'commands':['NERDTreeToggle','NERDTreeFind']}} "{{{
+Plug 'editorconfig/editorconfig-vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tomtom/tcomment_vim'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } "{{{
   let NERDTreeShowHidden=1
   let NERDTreeQuitOnOpen=0
   let NERDTreeShowLineNumbers=0
   let NERDTreeChDirMode=0
   let NERDTreeShowBookmarks=1
-  let NERDTreeIgnore=['\.git','\.hg','\.meta']
+  let NERDTreeIgnore=['\.git$','\.hg','\.meta','\.DS_Store']
   let NERDTreeBookmarksFile='~/.vim/temp_dirs/NerdTreeBookmarks'
   nnoremap <F2> :NERDTreeToggle<CR>
   nnoremap <F3> :NERDTreeFind<CR>
 "}}}
 
-NeoBundle 'Shougo/unite.vim' "{{{
-  let bundle = neobundle#get('unite.vim')
-  function! bundle.hooks.on_source(bundle)
+Plug 'Shougo/unite.vim' "{{{
+  autocmd FileType unite call s:unite_my_settings()
+  function! s:unite_my_settings()
     call unite#filters#matcher_default#use(['matcher_fuzzy'])
     call unite#filters#sorter_default#use(['sorter_rank'])
-    call unite#set_profile('files', 'smartcase', 1)
+    call unite#custom#profile('files', 'context.smartcase', 1)
     call unite#custom#source('line,outline','matchers','matcher_fuzzy')
   endfunction
 
@@ -131,44 +106,37 @@ NeoBundle 'Shougo/unite.vim' "{{{
   nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
   nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
 
-  NeoBundleLazy 'Shougo/neomru.vim', {'autoload':{'unite_sources':'file_mru'}}
-  NeoBundleLazy 'osyo-manga/unite-airline_themes', {'autoload':{'unite_sources':'airline_themes'}} "{{{
+  Plug 'Shougo/neomru.vim'
+  Plug 'osyo-manga/unite-airline_themes' "{{{
     nnoremap <silent> [unite]a :<C-u>Unite -auto-preview -buffer-name=airline_themes airline_themes<cr>
   "}}}
-  NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':'colorscheme'}} "{{{
+  Plug 'ujihisa/unite-colorscheme' "{{{
     nnoremap <silent> [unite]c :<C-u>Unite -auto-preview -buffer-name=colorschemes colorscheme<cr>
   "}}}
-  NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':['tag','tag/file']}} "{{{
+  Plug 'tsukkee/unite-tag' "{{{
     nnoremap <silent> [unite]t :<C-u>Unite -auto-resize -buffer-name=tag tag tag/file<cr>
   "}}}
-  NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}} "{{{
+  Plug 'Shougo/unite-outline' "{{{
     nnoremap <silent> [unite]o :<C-u>Unite -auto-resize -buffer-name=outline outline<cr>
   "}}}
-  NeoBundleLazy 'Shougo/unite-help', {'autoload':{'unite_sources':'help'}} "{{{
+  Plug 'Shougo/unite-help' "{{{
     nnoremap <silent> [unite]h :<C-u>Unite -auto-resize -buffer-name=help help<cr>
   "}}}
 "}}}
 
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'Lokaltog/vim-easymotion'
+Plug 'scrooloose/syntastic'
+Plug 'Lokaltog/vim-easymotion'
 
 " Automatic indenting style
-NeoBundle 'tpope/vim-sleuth'
+Plug 'tpope/vim-sleuth'
 
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'chriskempson/base16-vim'
-NeoBundleLazy 'fatih/vim-go', {'autoload': {'filetypes': ['go']}} "{{{
-  let g:go_bin_path = expand('~/.vim/temp_dirs/.vim-go')
+Plug 'flazz/vim-colorschemes'
+Plug 'chriskempson/base16-vim'
+Plug 'fatih/vim-go', {'for': 'go'} "{{{
+  let g:go_bin_path = expand('~/.vim/vim-go')
   let g:go_snippet_engine = "neosnippet"
+  let g:go_auto_type_info = 1
+  let g:go_fmt_command = "goimports"
 "}}}
-NeoBundleLazy 'nosami/Omnisharp', {'build': {'mac': 'sh -c "cd server && xbuild"'}, 'build_commands': 'xbuild', 'autoload': {'filetypes': ['cs']} }
-
-" Required:
-call neobundle#end()
-
-" Required:
-filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
+Plug 'nosami/Omnisharp', {'do': 'sh -c \"cd server && xbuild\"', 'for': 'cs'}
+call plug#end()

@@ -16,7 +16,7 @@ hi Folded ctermbg=23
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>e :e! ~/.vim/<cr>
-autocmd! bufwritepost ~/vim/*.vim source %
+autocmd! bufwritepost ~/.vim/*.vim source %
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -70,4 +70,4 @@ autocmd BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
 let g:neocomplete#sources#omni#input_patterns.cs = '\.*[^=\);]'
 let g:neocomplete#sources.cs = ['omni']
 
-set completeopt=longest,menuone,preview
+set completeopt=longest,menuone
