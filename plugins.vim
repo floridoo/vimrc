@@ -77,6 +77,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } "{{{
   nnoremap <F2> :NERDTreeToggle<CR>
   nnoremap <F3> :NERDTreeFind<CR>
 "}}}
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'Shougo/unite.vim' "{{{
   autocmd FileType unite call s:unite_my_settings()
@@ -133,7 +134,6 @@ Plug 'tpope/vim-sleuth'
 Plug 'flazz/vim-colorschemes'
 Plug 'chriskempson/base16-vim'
 Plug 'fatih/vim-go', {'for': 'go'} "{{{
-  let g:go_bin_path = expand('~/.vim/vim-go')
   let g:go_snippet_engine = "neosnippet"
   let g:go_auto_type_info = 1
   let g:go_fmt_command = "goimports"
