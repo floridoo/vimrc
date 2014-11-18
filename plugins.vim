@@ -135,7 +135,6 @@ Plug 'flazz/vim-colorschemes'
 Plug 'chriskempson/base16-vim'
 Plug 'fatih/vim-go', {'for': 'go'} "{{{
   let g:go_snippet_engine = "neosnippet"
-  let g:go_auto_type_info = 1
   let g:go_fmt_command = "goimports"
 "}}}
 Plug 'nosami/Omnisharp', {'do': 'sh -c \"cd server && xbuild\"', 'for': 'cs'}
